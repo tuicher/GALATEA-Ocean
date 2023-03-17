@@ -12,13 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05d6389fa46ca6641a6adda15de50824, type: 3}
   m_Name: SimulationSettings
   m_EditorClassIdentifier: 
-  _resolution: 256
+  _resolution: 512
   _cascadesNumber: 4
   _anisoLevel: 6
-  _simulateFoam: 0
+  _simulateFoam: 1
   _updateSpectrum: 1
-  _readbackCascades: 0
-  _samplingIterations: 3
+  _readbackCascades: 1
+  _samplingIterations: 5
   _domainsMode: 0
   _simulationScale: 665.91
   _allowOverlap: 1

@@ -103,7 +103,7 @@ namespace OceanSystem
             _windForce01 = windForce01;
         }
 
-        private bool Setup()
+        public bool Setup()
         {
             if (!_simulationSettings || !_inputsProvider)
             {

@@ -2,15 +2,21 @@
 %TAG !u! tag:unity3d.com,2011:
 --- !u!21 &2100000
 Material:
-  serializedVersion: 6
+  serializedVersion: 8
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Ocean
   m_Shader: {fileID: 4800000, guid: b8f769ad93da9b041abbe077590a2bce, type: 3}
-  m_ShaderKeywords: CONTACT_FOAM_ENABLED TRANSPARENCY_ENABLED UNDERWATER_ENABLED
-    WAVES_FOAM_ENABLED _RECEIVESHADOWS_ON _RECIEVE_SHADOWS_OFF
+  m_ValidKeywords:
+  - CONTACT_FOAM_ENABLED
+  - WAVES_FOAM_ENABLED
+  m_InvalidKeywords:
+  - TRANSPARENCY_ENABLED
+  - UNDERWATER_ENABLED
+  - _RECEIVESHADOWS_ON
+  - _RECIEVE_SHADOWS_OFF
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -46,7 +52,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _DistantRoughnessMap:
         m_Texture: {fileID: 2800000, guid: eb16ff669af32da4aa5432e5a69dbc88, type: 3}
-        m_Scale: {x: 0.01, y: 0.01}
+        m_Scale: {x: 10.53, y: 10.53}
         m_Offset: {x: 0, y: 0}
     - _EmissionMap:
         m_Texture: {fileID: 0}
@@ -112,6 +118,7 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    m_Ints: []
     m_Floats:
     - Ocean_BottomHemisphereRadius: 0.03
     - Ocean_BottomHemisphereStrength: 2.68
@@ -146,7 +153,7 @@ Material:
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
-    - _HorizonFog: 0.25
+    - _HorizonFog: 0.431
     - _Metallic: 0
     - _OcclusionStrength: 1
     - _PLANAR_REFLECTIONS_ENABLED: 0
@@ -172,7 +179,7 @@ Material:
     - _SssEnvironmentStrength: 0.21
     - _SssFadeDistance: 30
     - _SssHeight: 0.2
-    - _SssHeightBias: 0
+    - _SssHeightBias: -0.62
     - _SssHeightMult: 0.63
     - _SssNormalStrength: 0.779
     - _SssSpread: 0.498

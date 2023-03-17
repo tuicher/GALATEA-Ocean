@@ -65,7 +65,7 @@ namespace OceanSystem
         {
             Texture2D tex = new Texture2D(1, 1, TextureFormat.RGBAHalf, false, true);
             tex.SetPixel(0, 0, Color.clear);
-            tex.Resize(size, size);
+            tex.Reinitialize(size, size);
             tex.wrapMode = TextureWrapMode.Repeat;
             return tex;
         }
