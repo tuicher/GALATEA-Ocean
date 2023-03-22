@@ -14,11 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _resolution: 512
   _cascadesNumber: 4
-  _anisoLevel: 6
+  _anisoLevel: 5
   _simulateFoam: 1
   _updateSpectrum: 1
   _readbackCascades: 1
-  _samplingIterations: 5
+  _samplingIterations: 1
   _domainsMode: 0
   _simulationScale: 665.91
   _allowOverlap: 1

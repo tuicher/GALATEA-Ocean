@@ -22,7 +22,7 @@ namespace OceanSystem.Editor
 
                 Handles.color = Color.white;
                 Handles.Label(point, "Position -" + i);
-                
+
                 Handles.color = Color.red;
                 var xComponent = Handles.ScaleValueHandle(
                     point.x,
@@ -39,13 +39,57 @@ namespace OceanSystem.Editor
                     2.5f,
                     Handles.ConeHandleCap,
                     1.0f);
-                
+
                 point = new Vector3(xComponent, 0.0f, zComponent);
 
                 _floatingObject.FloatingPoints[i] = _floatingObject.transform.InverseTransformPoint(point);
             }
         }
 
+        /*
+        public override void OnInspectorGUI()
+        {
+            DrawDefaultInspector();
+
+            GUILayoutOption width = GUILayout.Width(100);
+            GUILayoutOption height = GUILayout.Height(50);
+
+            EditorGUILayout.BeginVertical();
+
+            EditorGUILayout.BeginHorizontal();
+            GUILayout.FlexibleSpace();
+
+            if (GUILayout.Button("^", width, height))
+            {
+                _floatingObject.Move(Vector3.right, 0.5f);
+            }
+            GUILayout.FlexibleSpace();
+            EditorGUILayout.EndHorizontal();
+
+            EditorGUILayout.BeginHorizontal();
+            if (GUILayout.Button("<", width, height))
+            {
+                _floatingObject.Move(Vector3.forward, 0.5f);
+            }
+            GUILayout.FlexibleSpace();
+            if (GUILayout.Button(">", width, height))
+            {
+                _floatingObject.Move(Vector3.back, 0.5f);
+            }
+            EditorGUILayout.EndHorizontal();
+
+            EditorGUILayout.BeginHorizontal();
+            GUILayout.FlexibleSpace();
+            if (GUILayout.Button("v", width, height))
+            {
+                _floatingObject.Move(Vector3.left, 0.5f);
+            }
+            GUILayout.FlexibleSpace();
+            EditorGUILayout.EndHorizontal();
+
+            EditorGUILayout.EndVertical();
+        }
+        */
 
     }
 }

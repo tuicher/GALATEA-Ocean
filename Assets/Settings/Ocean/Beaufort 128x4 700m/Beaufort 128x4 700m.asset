@@ -85,7 +85,7 @@ MonoBehaviour:
   m_Name: Beaufort 128x4 700m
   m_EditorClassIdentifier: 
   _mode: 1
-  _timeScale: 1
+  _timeScale: 0.8
   _depth: 1000
   _swell: {fileID: 11400000, guid: 9275ed2623fcd8a478d04263e6973ff0, type: 2}
   _localWaves: {fileID: 0}
@@ -160,12 +160,12 @@ MonoBehaviour:
   _chop: 1.49
   _foam:
     decayRate: 0.02
-    coverage: 0.575
+    coverage: 0.337
     density: 13.99
-    sharpness: 0.5
-    persistence: 0.762
-    trail: 0.265
-    trailTextureStrength: 0.5
+    sharpness: 0.041
+    persistence: 0.1
+    trail: 0.01
+    trailTextureStrength: 0.479
     trailTextureSize: {x: 100, y: 50}
     underwater: 0.476
     cascadesWeights: {x: 3, y: 1, z: 0.3, w: 0.2}

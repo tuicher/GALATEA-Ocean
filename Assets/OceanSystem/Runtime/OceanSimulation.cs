@@ -11,14 +11,14 @@ namespace OceanSystem
         [SerializeField] private OceanSimulationInputsProvider _inputsProvider;
 
         [Range(0, 360)]
-        [SerializeField] private float _localWindDirection;
+        [SerializeField] public float _localWindDirection;
         [Range(0, 360)]
-        [SerializeField] private float _swellDirection;
+        [SerializeField] public float _swellDirection;
         [Range(0, 1)]
         [SerializeField] private float _windForce01;
 
         public OceanCollision Collision => _collision;
-        
+        //public float LocalWindDirection => _localWindDirection;
         private readonly OceanSimulationInputs _inputs = new OceanSimulationInputs();
 
         private static float OceanTime => (float)(Time.timeSinceLevelLoadAsDouble % 18000);

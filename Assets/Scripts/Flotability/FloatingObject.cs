@@ -7,28 +7,31 @@ namespace OceanSystem
     public class FloatingObject : MonoBehaviour
     {
         [SerializeField] bool _simulateFlotation;
-
         private OceanSimulation _oceanSimulation;
         [SerializeField] private Vector3 _position;
-
+        [SerializeField] private Quaternion _rotation;
         [SerializeField] private List<Vector3> _floatingPoints;
-
-        private float gizmoScale = 0.5f;
-        [SerializeField, Range(0,1)] private float _displacementStiffness;
+        [SerializeField, Range(0, 1)] private float _displacementStiffness;
         [SerializeField, Range(0, 1)] private float _rotationStiffness;
 
+        // Properties
         public List<Vector3> FloatingPoints => _floatingPoints;
+
+        // Tooling Paramns
+        private float gizmoScale = 0.5f;
 
         private void Awake()
         {
             var ocean = GameObject.Find("Ocean");
             _oceanSimulation = ocean.GetComponent<OceanSimulation>();
+
             _position = transform.position;
+            _rotation = transform.rotation;
         }
 
         private void Update()
         {
-            if (_oceanSimulation.Setup())
+            if (_simulateFlotation && _oceanSimulation.Setup())
             {
                 // Initialize variables
                 var avgHeight = 0.0f;
@@ -57,14 +60,39 @@ namespace OceanSystem
                 avgDisplacemet /= _floatingPoints.Count;
                 avgUp /= _floatingPoints.Count;
 
-                transform.position = _position +  new Vector3( avgDisplacemet.x * _displacementStiffness, avgHeight / _floatingPoints.Count, avgDisplacemet.z * _displacementStiffness);
-                transform.up = Vector3.Lerp(transform.up, avgUp, _rotationStiffness);
+                transform.position = _position + new Vector3(avgDisplacemet.x * _displacementStiffness, avgHeight, avgDisplacemet.z * _displacementStiffness);
+
+                //transform.rotation = _rotation * Quaternion.Euler(avgUp.x * _rotationStiffness, 0, avgUp.z * _rotationStiffness);
+
+                /*
+                var fromTo = Quaternion.FromToRotation(Vector3.up, Vector3.Lerp(transform.up, avgUp, _rotationStiffness));
+                fromTo.y = 0;
+                transform.rotation = _rotation * fromTo;
+                */
+
+                var fromTo = Quaternion.FromToRotation(Vector3.up, avgUp);
+                transform.rotation = Quaternion.Slerp( _rotation, _rotation * fromTo, _rotationStiffness);
+            
             }
+        }
+
+        public void MoveFwd(float amount)
+        {
+            Move( Vector3.right, amount);
+        }
+        private void Move(Vector3 direction, float amount = 1.0f)
+        {
+            _position += transform.TransformVector(direction) * amount;
+        }
+
+        public void Rotate(float amount)
+        {
+            _rotation.y += amount;
         }
 
         private void OnDrawGizmosSelected()
         {
-            Gizmos.color = Color.yellow;
+            Gizmos.color = Color.blue;
             for (int i = 0; i < _floatingPoints.Count; i++)
             {
                 var point = transform.TransformPoint(_floatingPoints[i]);
