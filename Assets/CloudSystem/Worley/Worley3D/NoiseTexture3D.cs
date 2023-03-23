@@ -24,7 +24,7 @@ public class NoiseTexture3D : MonoBehaviour
     private void OnEnable()
     {
         _meshRenderer = gameObject.GetComponent<MeshRenderer>();
-        _material = _meshRenderer.material;
+        _material = _meshRenderer.sharedMaterial;
     }
 
     private void OnValidate() {

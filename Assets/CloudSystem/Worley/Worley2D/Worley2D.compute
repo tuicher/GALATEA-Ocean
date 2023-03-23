@@ -68,8 +68,6 @@ void CSWorley2D (uint3 id : SV_DispatchThreadID)
     // Get the position inside the cell.
     float2 samplePositionLocal = float2(samplePosition / _CellResolution - samplePositionCellCoordinate);
 
-    _Result[id.xy] = noise(samplePosition / _GridSize);
-
     // Find the feature point nearest to the sample position by searching the surrounding cells.
     // This search will also include the cell the sample position belongs to.
     float minDistance = 1.0;
@@ -98,8 +96,9 @@ void CSWorley2D (uint3 id : SV_DispatchThreadID)
         }
     }
 
+    _Result[id.xy] = noise(samplePosition / _GridSize);
     // Set the color of the coordinate in the resulting texture.
-    _Result[id.xy] += 1.0 - minDistance;
+    _Result[id.xy] += (1.0 - minDistance);
 }
 
 

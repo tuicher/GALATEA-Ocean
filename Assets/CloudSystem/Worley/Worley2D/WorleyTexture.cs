@@ -40,7 +40,7 @@ public class WorleyTexture : MonoBehaviour
         _computeShader.SetInt("_Resolution", _textureResolution);
         _computeShader.SetInt("_CellResolution", _cellResolution);
         _computeShader.SetInt("_AxisCellCount", _axisCellCount);
-        //_computeShader.SetFloat("_GridSize", _gridSize);
+        _computeShader.SetFloat("_GridSize", _gridSize);
         var _feature = Create2DFeaturePointsBuffer();
         _computeShader.SetBuffer(0, "_FeaturePoints", _feature);
         _computeShader.SetTexture(0, "_Result", _noiseTexture);
