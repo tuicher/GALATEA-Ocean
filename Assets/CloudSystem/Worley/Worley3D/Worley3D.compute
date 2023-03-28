@@ -4,6 +4,8 @@ int _Resolution;
 int _CellResolution;
 int _AxisCellCount;
 float _GridSize;
+float _OffsetX;
+float _OffsetY;
 StructuredBuffer<float3> _FeaturePoints;
 RWTexture3D<float4> _Result;
 
@@ -37,6 +39,7 @@ static const int3 CellOffsets[] =
     int3(0, 1, 1),
     int3(1, 1, 1),
 };
+
 // 2D Random
 float random(float2 pixel, float seed = 1)
 {
@@ -73,13 +76,30 @@ float noise (in float2 st)
     return lerp(a, b, u.x) + (c - a)* u.y * (1.0 - u.x) +(d - b) * u.x * u.y;
 }
 
+float noise3D (in float3 st)
+{
+    // Get all permutations of noise for each individual axis
+    float noiseXY = noise(float2(st.x, st.y));
+    float noiseXZ = noise(float2(st.x, st.z));
+    float noiseYZ = noise(float2(st.y, st.z));
+
+    // Reverse of the permutations of noise for each individual axis
+    float noiseYX = noise(float2(st.y, st.x));
+    float noiseZX = noise(float2(st.z, st.x));
+    float noiseZY = noise(float2(st.z, st.y));
+
+    // Use the average of the noise functions to get a smoother result
+    return (noiseXY + noiseXZ + noiseYZ + noiseYX + noiseZX + noiseZY) / 6.0;
+}
+
 [numthreads(8,8,8)]
 void CSWorley3D (uint3 id : SV_DispatchThreadID)
 {
     // Get the sample position.
     float3 samplePosition = float3(id.x, id.y, id.z);
     
-    _Result[id.xyz] = noise(float2(id.x, id.y) / _GridSize);
+    
+    //_Result[id.xyz] = Perlin3D(float3(id.x, id.y, id.z) * _GridSize);
     
     // Get the cell the sample position belongs to.
     int3 samplePositionCellCoordinate = floor(samplePosition / _CellResolution);
@@ -87,7 +107,7 @@ void CSWorley3D (uint3 id : SV_DispatchThreadID)
     // Get the position inside the cell.
     float3 localizedSamplePosition = float3(samplePosition / _CellResolution - samplePositionCellCoordinate);
 
-    // Find the feature point nearest to the sample position by searching the surrounding cells.
+    // Find the feature p nearest to the sample position by searching the surrounding cells.
     // This search will also include the cell the sample position belongs to.
     float minDistance = 1.0;
     for (int offsetIndex = 0; offsetIndex < 27; offsetIndex++)
@@ -101,21 +121,24 @@ void CSWorley3D (uint3 id : SV_DispatchThreadID)
         // Check if the checked cell coordinates are outside the "cell map" boundaries.
         if (x == -1 || x == _AxisCellCount || y == -1 || y == _AxisCellCount || z == -1 || z == _AxisCellCount)
         {
-            // Wrap around the cell grid to find the distance to a feature point in a cell on the opposite side.
+            // Wrap around the cell grid to find the distance to a feature p in a cell on the opposite side.
             int3 wrappedCellCoordinate = fmod(cellCoordinate + _AxisCellCount, (int3)_AxisCellCount);
             int wrappedCellIndex = wrappedCellCoordinate.x + _AxisCellCount * (wrappedCellCoordinate.y + wrappedCellCoordinate.z * _AxisCellCount);
-            float3 featurePointOffset = cellCoordinate + _FeaturePoints[wrappedCellIndex];
-            minDistance = min(minDistance, distance(samplePositionCellCoordinate + localizedSamplePosition, featurePointOffset));
+            float3 featurepOffset = cellCoordinate + _FeaturePoints[wrappedCellIndex];
+            minDistance = min(minDistance, distance(samplePositionCellCoordinate + localizedSamplePosition, featurepOffset));
         }
         else
         {
-            // The checked cell is inside the "cell map" boundaries. Check the distance to the feature point.
+            // The checked cell is inside the "cell map" boundaries. Check the distance to the feature p.
             int cellIndex = cellCoordinate.x + _AxisCellCount * (cellCoordinate.y + cellCoordinate.z * _AxisCellCount);
-            float3 featurePointOffset = cellCoordinate + _FeaturePoints[cellIndex];
-            minDistance = min(minDistance, distance(samplePositionCellCoordinate + localizedSamplePosition, featurePointOffset));
+            float3 featurepOffset = cellCoordinate + _FeaturePoints[cellIndex];
+            minDistance = min(minDistance, distance(samplePositionCellCoordinate + localizedSamplePosition, featurepOffset));
         }
     }
 
     // Set the color of the coordinate in the resulting texture.
-    _Result[id.xyz] += 1.0 - minDistance;
+    //_Result[id.xyz] = (1.0 - minDistance);
+    _Result[id.xyz] = noise3D(float3(id.x + _OffsetX, id.y + _OffsetY, id.z) / _GridSize);
+
+    //_Result[id.xyz] += (noise(float2(id.x + _OffsetX, id.y + _OffsetY) / _GridSize))*0.8;
 }

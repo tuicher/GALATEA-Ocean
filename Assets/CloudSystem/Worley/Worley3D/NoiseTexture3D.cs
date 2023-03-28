@@ -16,7 +16,8 @@ public class NoiseTexture3D : MonoBehaviour
     [SerializeField] private int _cellResolution = 32;
     [SerializeField] private int _axisCellCount = 4;
     [SerializeField] private int _seed = 0;
-    [SerializeField] private float _gridSize = 10.0f;
+    [SerializeField] private float _gridSize = 1.0f;
+    [SerializeField] private Vector2 _offset = Vector2.zero;
 
     private ComputeBuffer _computeBuffer;
     private const int _threadGroupSize = 8;
@@ -27,13 +28,10 @@ public class NoiseTexture3D : MonoBehaviour
         _material = _meshRenderer.sharedMaterial;
     }
 
-    private void OnValidate() {
-        _material.SetFloat("_SliceDepth", _sliceDepth);
-    }
-
     private void Update()
     {
         GenerateWorleyTexture();
+        _material?.SetFloat("_SliceDepth", _sliceDepth);
     }
 
     private void GenerateWorleyTexture()
@@ -46,6 +44,8 @@ public class NoiseTexture3D : MonoBehaviour
         _computeShader.SetInt("_CellResolution", _cellResolution);
         _computeShader.SetInt("_AxisCellCount", _axisCellCount);
         _computeShader.SetFloat("_GridSize", _gridSize);
+        _computeShader.SetFloat("_OffsetX", _offset.x);
+        _computeShader.SetFloat("_OffsetY", _offset.y);
         var _feature = Create3DFeaturePointsBuffer();
         _computeShader.SetBuffer(0, "_FeaturePoints", _feature);
         _computeShader.SetTexture(0, "_Result", noiseTexture);
@@ -85,7 +85,7 @@ public class NoiseTexture3D : MonoBehaviour
     private ComputeBuffer Create3DFeaturePointsBuffer()
     {
         // Create one feature point per cell.
-        int count = _axisCellCount * _axisCellCount;
+        int count = _axisCellCount * _axisCellCount * _axisCellCount;
         float3[] points = new float3[count];
         for (int i = 0; i < count; i++)
         {

@@ -61,15 +61,7 @@ namespace OceanSystem
                 avgUp /= _floatingPoints.Count;
 
                 transform.position = _position + new Vector3(avgDisplacemet.x * _displacementStiffness, avgHeight, avgDisplacemet.z * _displacementStiffness);
-
-                //transform.rotation = _rotation * Quaternion.Euler(avgUp.x * _rotationStiffness, 0, avgUp.z * _rotationStiffness);
-
-                /*
-                var fromTo = Quaternion.FromToRotation(Vector3.up, Vector3.Lerp(transform.up, avgUp, _rotationStiffness));
-                fromTo.y = 0;
-                transform.rotation = _rotation * fromTo;
-                */
-
+                
                 var fromTo = Quaternion.FromToRotation(Vector3.up, avgUp);
                 transform.rotation = Quaternion.Slerp( _rotation, _rotation * fromTo, _rotationStiffness);
             
