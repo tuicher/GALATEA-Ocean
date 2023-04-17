@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Active: 1
   settings:
-    renderPassEvent: 500
+    renderPassEvent: 450
     blitMaterial: {fileID: 2100000, guid: 80b945cfd6a0621418c252efe6d875d5, type: 2}
     blitMaterialPassIndex: -1
     sourceType: 0
@@ -22,6 +22,8 @@ MonoBehaviour:
     sourceTextureId: _SourceTexture
     destinationTextureId: _DestinationTexture
   _clouds: {fileID: 0}
+  _noiseSimulator: {fileID: 0}
+  _gradientSimulation: {fileID: 0}
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -37,9 +39,9 @@ MonoBehaviour:
   debugShaders:
     debugReplacementPS: {fileID: 4800000, guid: cf852408f2e174538bcd9b7fda1c5ae7, type: 3}
   m_RendererFeatures:
-  - {fileID: 5097749917036466712}
   - {fileID: -7714839034664126348}
-  m_RendererFeatureMap: 1852bc5e8ad8be4674f886dfc562ef94
+  - {fileID: 5097749917036466712}
+  m_RendererFeatureMap: 74f886dfc562ef941852bc5e8ad8be46
   m_UseNativeRenderPass: 0
   postProcessData: {fileID: 11400000, guid: 41439944d30ece34e96484bdb6645b55, type: 2}
   xrSystemData: {fileID: 11400000, guid: 60e1133243b97e347b653163a8c01b64, type: 2}
@@ -70,13 +72,13 @@ MonoBehaviour:
     failOperation: 0
     zFailOperation: 0
   m_ShadowTransparentReceive: 1
-  m_RenderingMode: 1
+  m_RenderingMode: 0
   m_DepthPrimingMode: 0
   m_CopyDepthMode: 0
   m_AccurateGbufferNormals: 0
   m_ClusteredRendering: 0
   m_TileSize: 32
-  m_IntermediateTextureMode: 1
+  m_IntermediateTextureMode: 0
 --- !u!114 &5097749917036466712
 MonoBehaviour:
   m_ObjectHideFlags: 0

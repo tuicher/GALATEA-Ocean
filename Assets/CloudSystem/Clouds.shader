@@ -17,18 +17,21 @@ Shader "Custom/NewImageEffectShader"
 
             #include "UnityCG.cginc"
 
-             struct appdata {
+             struct appdata 
+             {
                 float4 vertex : POSITION;
                 float2 uv : TEXCOORD0;
             };
 
-            struct v2f {
+            struct v2f 
+            {
                 float4 pos : SV_POSITION;
                 float2 uv : TEXCOORD0;
                 float3 viewVector : TEXCOORD1;
             };
             
-            v2f vert (appdata v) {
+            v2f vert (appdata v) 
+            {
                 v2f output;
                 output.pos = UnityObjectToClipPos(v.vertex);
                 output.uv = v.uv;
@@ -41,8 +44,60 @@ Shader "Custom/NewImageEffectShader"
 
             sampler2D _MainTex;
             sampler2D _CameraDepthTexture;
+
+            Texture3D<float4> VolumeNoise;
+            Texture3D<float4> DetailNoise;
+            Texture2D<float4> PrecalcNoise;
+            Texture2D<float4> GradientNoise;
+
+            SamplerState samplerVolumeNoise;
+            SamplerState samplerDetailNoise;
+            SamplerState samplerPrecalcNoise;
+            SamplerState samplerGradientNoise;
+
+            float4 _VolumeNoiseWeight;
+            float3 _DetailNoiseWeight;
+
             float3 _BoundsMin;
             float3 _BoundsMax;
+            float3 _CloudOffset;
+            float _CloudScale;
+            float _DensityThreshold;
+            float _DensityMultiplier;
+            float _DetailNoiseMultiplier;
+            float _ContainerEdgeFadeDst;
+            float4 _LightColor0;
+            float _LightAbsortionSun;
+            float _LightAbsortionCloud;
+            float _DarknessThreshold;
+            float4 _PhaseParams;
+            float _PrecalcNoiseStrength;
+
+            int _NumStepsLight;
+
+            // Henyey-Greenstein
+            float hg(float a, float g) {
+                float g2 = g*g;
+                return (1-g2) / (4*3.1415*pow(1+g2-2*g*(a), 1.5));
+            }
+
+            float phase(float a) {
+                float blend = .5;
+                float hgBlend = hg(a,_PhaseParams.x) * (1-blend) + hg(a,-_PhaseParams.y) * blend;
+                return _PhaseParams.z + hgBlend*_PhaseParams.w;
+            }
+
+            float remap(float v, float minOld, float maxOld, float minNew, float maxNew)
+            {
+                return minNew + (v-minOld) * (maxNew - minNew) / (maxOld-minOld);
+            }
+
+            float2 squareUV(float2 uv)
+            {
+                float w = _ScreenParams.x;
+                float h = _ScreenParams.y;
+                return(uv.x * w / 1000, uv.y * h / 1000);
+            }
 
             float2 rayBoxDistance(float3 rayOrigin, float3 rayDir, float3 boxMin, float3 boxMax)
             {
@@ -60,27 +115,113 @@ Shader "Custom/NewImageEffectShader"
                 return float2(dstToBox, dstInsideBox);
             }
 
+            float sampleDensity(float3 pos)
+            {
+                float3 size = _BoundsMax - _BoundsMin;
+                //float3 samplePosition = pos * _CloudScale * 0.001 + _CloudOffset * 0.1;
+                float3 samplePosition = (size * .5 + pos) * _CloudScale * 0.001;
+
+                // Edge Fade
+                float dstFromEdgeX = min(_ContainerEdgeFadeDst, min(pos.x - _BoundsMin.x, _BoundsMax.x - pos.x));
+                float dstFromEdgeZ = min(_ContainerEdgeFadeDst, min(pos.z - _BoundsMin.z, _BoundsMax.z - pos.z));
+                float edgeWeight = min(dstFromEdgeZ,dstFromEdgeX)/_ContainerEdgeFadeDst;
+
+                // Gradient
+                float2 gradientUV = (size.xy * .5 + (pos.xz - (_BoundsMin + _BoundsMax * .5))) / max(size.x, size.z);
+                float gradient = GradientNoise.SampleLevel(samplerGradientNoise, gradientUV, 0).x;
+                float gMin = remap(gradient, 0, 1, .1, .5);
+                float gMax = remap(gradient, 0, 1, gMin, .9);
+                float heightPercent = (pos.y - _BoundsMin.y) / size.y;
+                float heightGradient = saturate(remap(heightPercent, 0.0, gMin, 0, 1)) * saturate(remap(heightPercent, 1, gMax, 0, 1));
+                heightGradient *= edgeWeight;
+
+                float4 vNoise = VolumeNoise.SampleLevel(samplerVolumeNoise, samplePosition + _CloudOffset * 0.1, 0);
+                float4 volumeWeight = _VolumeNoiseWeight / dot(_VolumeNoiseWeight, 1);
+                float volumeFBM = dot(vNoise, volumeWeight) * heightGradient;
+                float volumeDensity = volumeFBM + _DensityThreshold * 0.1;
+
+                if (volumeDensity > 0)
+                {
+                    float4 dNoise = DetailNoise.SampleLevel(samplerDetailNoise, samplePosition + _CloudOffset * 0.3, 0);\
+                    float3 detailWeight = _DetailNoiseWeight / dot(_DetailNoiseWeight, 1);
+                    float detailFBM = dot(dNoise, detailWeight);
+                    float detailErode = (1-volumeFBM) * (1-volumeFBM) * (1-volumeFBM);
+                    float detailDensity = (1-detailFBM) * detailErode * _DetailNoiseMultiplier;
+
+                    return volumeDensity - detailDensity * _DensityMultiplier;
+                }
+
+                return 0;
+            }
+
+            float lightAtPos(float3 pos)
+            {
+                float3 dirToLight = _WorldSpaceLightPos0;
+                float dstInsideBox = rayBoxDistance(pos, 1/dirToLight, _BoundsMin, _BoundsMax).y;
+
+                float density = 0;
+                float stepSize = dstInsideBox / _NumStepsLight;
+
+                for (int i = 0; i < _NumStepsLight; i++)
+                {
+                    pos += dirToLight * stepSize;
+                    density += max(0,sampleDensity(pos) * stepSize);
+                }
+
+                float transmittance = exp(-density * _LightAbsortionSun);
+                return _DarknessThreshold + transmittance * (1 - _DarknessThreshold);
+            }
+
             fixed4 frag (v2f i) : SV_Target
             {
-                fixed4 col = tex2D(_MainTex, i.uv);
-
+                // Create ray from camera to pixel
                 float3 rayOrigin = _WorldSpaceCameraPos;
-                float3 rayDir = normalize(i.viewVector);
+                float3 rayDir = i.viewVector / length(i.viewVector);
 
+                // Get depth of pixel
                 float nonLinearDepth = SAMPLE_DEPTH_TEXTURE(_CameraDepthTexture, i.uv);
-                FLOAT depth = LinearEyeDepth(nonLinearDepth) * length(i.viewVector);
-                
+                float depth = LinearEyeDepth(nonLinearDepth) * length(i.viewVector);
                 float2 rayBoxInfo = rayBoxDistance(rayOrigin, rayDir, _BoundsMin, _BoundsMax);
                 float dstToBox = rayBoxInfo.x;
                 float dstInsideBox = rayBoxInfo.y;
+
+                float3 entryPoint = rayOrigin + rayDir * dstToBox;
+
+                //float offset = PrecalcNoise.SampleLevel(samplerPrecalcNoise, squareUV(i.uv * 3), 0) * _PrecalcNoiseStrength;
                 
-                bool rayHitsBox = dstInsideBox > 0 && dstToBox < depth;
-                if (rayHitsBox)
+                // Raymarch
+                float dstTravelled = 0;
+                float stepSize = 10;
+                float transmittance = 1;
+                float lightEnergy = 0;
+
+                //float dstLimit = min(depth - dstToBox, dstInsideBox);
+                float dstLimit = min(depth - dstToBox, dstInsideBox);
+                float cosAlpha = dot(rayDir, _WorldSpaceLightPos0.xyz);
+                float phaseResult = phase(cosAlpha); 
+
+                float totalDensity = 0;
+                while (dstTravelled < dstLimit)
                 {
-                    col = 0;
+                    rayOrigin = entryPoint + rayDir * dstTravelled;
+                    float density = sampleDensity(rayOrigin);
+                    if (density > 0)
+                    {
+                        float lightTransmittance = lightAtPos(rayOrigin);
+                        lightEnergy += density * stepSize * transmittance * lightTransmittance * phaseResult;
+                        transmittance *= exp(-density * stepSize * _LightAbsortionCloud);
+
+                        if (transmittance < 0.01)
+                        {
+                            break;
+                        }
+                    }
+                    dstTravelled += stepSize;
                 }
-                
-                return col;
+
+                float3 bckColor = tex2D(_MainTex, i.uv);
+                float3 cloudCol = lightEnergy * _LightColor0;
+                return fixed4(bckColor * transmittance + cloudCol, 0);
             }
             ENDCG
         }
