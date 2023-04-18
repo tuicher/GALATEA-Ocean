@@ -1,7 +1,9 @@
+#if UNITY_EDITOR
 using UnityEditor;
 using UnityEngine;
 namespace OceanSystem.Editor
 {
+    
     [CustomEditor(typeof(Wind))]
     public class WindEditor : UnityEditor.Editor
     {
@@ -45,5 +47,8 @@ namespace OceanSystem.Editor
             base.OnInspectorGUI();
         }
         */
+        
     }
+    
 }
+#endif

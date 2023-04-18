@@ -101,7 +101,9 @@ public class NoiseSimulator : MonoBehaviour
         texture3D.SetPixels(pixels);
         texture3D.Apply();
 
+        #if UNITY_EDITOR
         UnityEditor.AssetDatabase.CreateAsset(texture3D, "Assets/Resources/" + name + ".asset");
+        #endif
     }
 
     ComputeBuffer CreateBuffer(System.Array data, int stride, string bufferName, int kernel = 0)
