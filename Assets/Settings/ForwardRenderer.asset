@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd132d1b58f9c364e90c82e39a35bb44, type: 3}
   m_Name: CloudsFeature
   m_EditorClassIdentifier: 
-  m_Active: 1
+  m_Active: 0
   settings:
-    renderPassEvent: 450
+    renderPassEvent: 400
     blitMaterial: {fileID: 2100000, guid: 80b945cfd6a0621418c252efe6d875d5, type: 2}
     blitMaterialPassIndex: -1
     sourceType: 0
@@ -39,9 +39,9 @@ MonoBehaviour:
   debugShaders:
     debugReplacementPS: {fileID: 4800000, guid: cf852408f2e174538bcd9b7fda1c5ae7, type: 3}
   m_RendererFeatures:
-  - {fileID: -7714839034664126348}
   - {fileID: 5097749917036466712}
-  m_RendererFeatureMap: 74f886dfc562ef941852bc5e8ad8be46
+  - {fileID: -7714839034664126348}
+  m_RendererFeatureMap: 1852bc5e8ad8be4674f886dfc562ef94
   m_UseNativeRenderPass: 0
   postProcessData: {fileID: 11400000, guid: 41439944d30ece34e96484bdb6645b55, type: 2}
   xrSystemData: {fileID: 11400000, guid: 60e1133243b97e347b653163a8c01b64, type: 2}
@@ -91,9 +91,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ebbcebb73a8461e42bd10853e5cf0ee6, type: 3}
   m_Name: Ocean
   m_EditorClassIdentifier: 
-  m_Active: 1
+  m_Active: 0
   _settings:
     skyMapResolution: 512
-    updateSkyMap: 1
+    updateSkyMap: 0
     transparency: 1
     underwaterEffect: 1

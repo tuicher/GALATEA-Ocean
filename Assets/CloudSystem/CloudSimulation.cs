@@ -3,7 +3,6 @@ using UnityEngine;
 public class CloudSimulation : MonoBehaviour
 {
     private Transform _container;
-    [SerializeField] public Color _lightColor = Color.white;
     [SerializeField] public float _cloudScale = 1.0f;
     [SerializeField] public Vector3 _cloudOffset = Vector3.zero;
     [SerializeField] public float _densityThreshold = 0.5f;

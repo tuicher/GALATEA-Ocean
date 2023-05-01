@@ -12,6 +12,11 @@ public class GradientSimulation : MonoBehaviour
     public Vector2 _minMax = new Vector2(0, 1);
     public Vector4 _modelingParams = new Vector4(0.5f, 0.5f, 0.5f, 0.5f);
 
+    public void Awake()
+    {
+        UpdateGradient();
+    }
+    
     public void UpdateGradient()
     {
         var timer = System.Diagnostics.Stopwatch.StartNew();

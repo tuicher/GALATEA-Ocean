@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _resolution: 512
   _cascadesNumber: 4
-  _anisoLevel: 5
+  _anisoLevel: 9
   _simulateFoam: 1
   _updateSpectrum: 1
   _readbackCascades: 1

@@ -32,7 +32,7 @@ namespace UnityEngine.Rendering.Universal
         {
             base.Create();
 
-           LocateComponents();
+            LocateComponents();
         }
 
         private void UpdateEverything()
@@ -41,10 +41,10 @@ namespace UnityEngine.Rendering.Universal
 
             //_noiseSimulator._simulate = true;
             _noiseSimulator.UpdateNoise();
-            //if (!Application.isPlaying)
+            if (!Application.isPlaying)
                 _gradientSimulation.UpdateGradient();
             //settings.blitMaterial.SetTexture("VolumeNoise", _noiseSimulator._volumeTexture);
-
+            settings.renderPassEvent = (Camera.main.transform.position.y > 24.9f) ? RenderPassEvent.AfterRenderingTransparents : RenderPassEvent.AfterRenderingSkybox;
             settings.blitMaterial.SetTexture("VolumeNoise", _noiseSimulator._volumeTexture);
             settings.blitMaterial.SetTexture("DetailNoise", _noiseSimulator._detailTexture);
             settings.blitMaterial.SetTexture("PrecalcNoise", _clouds._precalcNoise);
@@ -57,7 +57,7 @@ namespace UnityEngine.Rendering.Universal
             settings.blitMaterial.SetFloat("_DetailNoiseMultiplier", _clouds._detailMultiplier); 
             settings.blitMaterial.SetFloat("_ContainerEdgeFadeDst", _clouds._containerEdgeFadeDistance);
             settings.blitMaterial.SetInt("_NumStepsLight", _clouds._numSteps);
-            settings.blitMaterial.SetColor("_LightColor0", _clouds._lightColor);
+
             settings.blitMaterial.SetVector("_PhaseParams", new Vector4(_clouds._fwdScattering, _clouds._bckScattering, _clouds._bareBrightness, _clouds._phaseFactor));
             settings.blitMaterial.SetVector("_DetailNoiseWeight", _clouds._detailNoiseWeight);
             settings.blitMaterial.SetVector("_VolumeNoiseWeight", _clouds._volumeNoiseWeight);

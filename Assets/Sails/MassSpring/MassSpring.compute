@@ -1,0 +1,68 @@
+// Each #kernel tells which function to compile; you can have many kernels
+#pragma kernel NodeSimulation
+#pragma kernel SpringSimulation
+
+struct Node
+{
+    float3 localPos;
+    float3 velocity;
+    float3 force;
+    int isFixed;
+};
+
+struct Spring
+{
+    int nodeA;
+    int nodeB;
+    float stiffness;
+    float length;
+};
+
+RWStructuredBuffer<Node> nodes;
+StructuredBuffer<Spring> springs;
+
+uniform float4x4 _LocalToWorld;
+uniform float4x4 _WorldToLocal;
+
+uniform float _TimeStep;
+uniform float _Mass;
+uniform float _Damping;
+
+[numthreads(20,10,1)]
+void NodeSimulation (uint3 id : SV_DispatchThreadID)
+{
+    int idx = id.y * 20 + id.x;
+
+    if (nodes[idx].isFixed)
+        return;
+
+    float4 pos = float4(nodes[idx].localPos.xyz, 1.0f);
+    float3 worldPos = mul(_LocalToWorld, pos).xyz;
+
+    nodes[idx].force = _Mass * float3(0, -1, 0) - (_Damping * _Mass * nodes[idx].velocity);
+    nodes[idx].velocity += _TimeStep / _Mass * nodes[idx].force;
+    worldPos += _TimeStep * nodes[idx].velocity;
+    
+    nodes[idx].localPos = mul(_WorldToLocal, float4(worldPos.xyz, 1.0f)).xyz;
+}
+
+[numthreads(712,1,1)]
+void SpringSimulation (uint3 id : SV_DispatchThreadID)
+{
+    int idx = id.x;
+
+    int nodeA = springs[idx].nodeA;
+    int nodeB = springs[idx].nodeB;
+
+    float3 posA = nodes[nodeA].localPos;
+    float3 posB = nodes[nodeB].localPos;
+
+    float3 delta = posB - posA;
+    float newL = length(delta);
+    float3 dir = delta / newL;
+
+    float3 force = springs[idx].stiffness * (newL - springs[idx].length) * dir;
+
+    nodes[nodeA].force = force;
+    nodes[nodeB].force = force * -1.0f;
+}

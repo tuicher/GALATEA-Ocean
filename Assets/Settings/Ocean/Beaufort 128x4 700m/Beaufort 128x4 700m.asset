@@ -61,12 +61,12 @@ MonoBehaviour:
   _chop: 1.44
   _foam:
     decayRate: 0.1
-    coverage: 0.61
-    density: 19.38
-    sharpness: 0.651
+    coverage: 0.5
+    density: 18.93
+    sharpness: 0.743
     persistence: 0.746
-    trail: 0
-    trailTextureStrength: 0.5
+    trail: 0.332
+    trailTextureStrength: 0.308
     trailTextureSize: {x: 100, y: 50}
     underwater: 0.46
     cascadesWeights: {x: 2, y: 1, z: 0.3, w: 0.2}
@@ -160,7 +160,7 @@ MonoBehaviour:
   _chop: 1.49
   _foam:
     decayRate: 0.02
-    coverage: 0.337
+    coverage: 0.636
     density: 13.99
     sharpness: 0.041
     persistence: 0.1
