@@ -584,11 +584,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _animator: {fileID: 972595888}
-  _sailState: 0
+  _sailState: 3
   _windDir: 1
-  _animPercent: 0.9028596
-  _windParam: 0.8889825
-  _rollUpParam: 0.083263166
+  _animPercent: 1
+  _windParam: 1
+  _rollUpParam: 0
 --- !u!1 &1285742482
 GameObject:
   m_ObjectHideFlags: 0

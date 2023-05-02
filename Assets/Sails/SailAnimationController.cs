@@ -23,7 +23,7 @@ public class SailAnimationController : MonoBehaviour
         // Initial State
         _animator.Play("Idle");
         _animator.Update(0.0f);
-        RollUp();
+        //RollUp();
         //RollDown();
     }
 

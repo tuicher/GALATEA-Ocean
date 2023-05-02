@@ -132,7 +132,7 @@ Material:
     - _TimeStep: 2.5
     - _WaveHeight: 0.31
     - _WaveSisze: 1
-    - _WaveSpeed: 0.8
+    - _WaveSpeed: 1
     - _WorkflowMode: 1
     - _ZTest: 4
     - _ZWrite: 1
