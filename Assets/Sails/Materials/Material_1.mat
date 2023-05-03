@@ -36,7 +36,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _Alpha:
-        m_Texture: {fileID: 2800000, guid: c5ca19283edd9314a9c7258d6b458033, type: 3}
+        m_Texture: {fileID: 2800000, guid: dffa54fa51b58214684fdd3f21af8af0, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BaseMap:
@@ -80,7 +80,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Pattern:
-        m_Texture: {fileID: 2800000, guid: d2b3b0f34725c974884737f69bc5160b, type: 3}
+        m_Texture: {fileID: 2800000, guid: 8b5a5637ec18df04084b6a1e7d0ff51e, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SpecGlossMap:
@@ -102,7 +102,7 @@ Material:
     m_Ints: []
     m_Floats:
     - _AlphaClip: 1
-    - _ApplyAlpha: 0
+    - _ApplyAlpha: 1
     - _Blend: 0
     - _BumpScale: 1
     - _CastShadows: 1
@@ -129,9 +129,9 @@ Material:
     - _SrcBlend: 1
     - _Surface: 0
     - _TimeOffset: 0.3
-    - _TimeStep: 2.5
-    - _WaveHeight: 0.31
-    - _WaveSisze: 1
+    - _TimeStep: 4
+    - _WaveHeight: 2
+    - _WaveSisze: 1.1
     - _WaveSpeed: 1
     - _WorkflowMode: 1
     - _ZTest: 4
@@ -143,6 +143,6 @@ Material:
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _GradientWeight: {r: 1, g: 2, b: 1, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
-    - _flagColor1: {r: 0.98039216, g: 0.7411765, b: 0, a: 0}
-    - _flagColor2: {r: 0.6784314, g: 0.08235294, b: 0.09803922, a: 0}
+    - _flagColor1: {r: 0.02745098, g: 0.12549016, b: 0.81960785, a: 0}
+    - _flagColor2: {r: 1, g: 1, b: 1, a: 0}
   m_BuildTextureStacks: []

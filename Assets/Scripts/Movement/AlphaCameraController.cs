@@ -6,6 +6,8 @@ using UnityEngine.InputSystem;
 public class AlphaCameraController : MonoBehaviour
 {
     private PlayerActions _inputManager;
+    private Quaternion _startRotation;
+    private Vector3 _startPosition;
     private Camera _mainCam;
     [SerializeField] private float _speed;
     [SerializeField] private float _speedBonus = 2.5f;
@@ -19,6 +21,11 @@ public class AlphaCameraController : MonoBehaviour
     
     void Awake()
     {
+        QualitySettings.vSyncCount = 0;
+        Application.targetFrameRate = 60;
+        _startRotation = transform.rotation;
+        _startPosition = transform.position;
+
         _mainCam =  Camera.main;
 
         _inputManager = new PlayerActions();
@@ -76,6 +83,6 @@ public class AlphaCameraController : MonoBehaviour
         _rotation.y -= _mouseLook.y * _sensibilityY * Time.deltaTime;
         _rotation.y = Mathf.Clamp(_rotation.y, -90f, 90f);
 
-        transform.localRotation = Quaternion.Euler(_rotation.y, _rotation.x, 0f);
+        transform.localRotation = _startRotation * Quaternion.Euler(_rotation.y, _rotation.x, 0f);
     }
 }

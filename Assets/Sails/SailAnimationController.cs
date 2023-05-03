@@ -30,6 +30,8 @@ public class SailAnimationController : MonoBehaviour
     void Update()
     {
         AnimateSail();
+
+        
     }
 
     Vector3 upValues = new Vector3(0.00001f, 1.0f, 1.0f);

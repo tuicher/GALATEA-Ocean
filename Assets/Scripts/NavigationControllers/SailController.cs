@@ -1,19 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-public class SailController : MonoBehaviour
+namespace OceanSystem
 {
-    Transform pole;
-    [SerializeField] float speed;
-
-    void Awake()
+    public class SailController : MonoBehaviour
     {
-        pole = GameObject.Find("TopSailPole").GetComponent<Transform>();
-    }
+        Transform pole;
+        [SerializeField] float speed;
 
-    void Update()
-    {
-        pole.position = pole.position + pole.up * -speed * Time.deltaTime;
+        void Awake()
+        {
+            pole = GameObject.Find("TopSailPole").GetComponent<Transform>();
+        }
+
+        void Update()
+        {
+            pole.position = pole.position + pole.up * -speed * Time.deltaTime;
+        }
     }
 }

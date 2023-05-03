@@ -16,6 +16,7 @@ struct Spring
     int nodeB;
     float stiffness;
     float length;
+    float length0;l
 };
 
 RWStructuredBuffer<Node> nodes;
@@ -39,7 +40,7 @@ void NodeSimulation (uint3 id : SV_DispatchThreadID)
     float4 pos = float4(nodes[idx].localPos.xyz, 1.0f);
     float3 worldPos = mul(_LocalToWorld, pos).xyz;
 
-    nodes[idx].force = _Mass * float3(0, -1, 0) - (_Damping * _Mass * nodes[idx].velocity);
+    nodes[idx].force += _Mass * float3(0, -1, 0) - (_Damping * _Mass * nodes[idx].velocity);
     nodes[idx].velocity += _TimeStep / _Mass * nodes[idx].force;
     worldPos += _TimeStep * nodes[idx].velocity;
     
