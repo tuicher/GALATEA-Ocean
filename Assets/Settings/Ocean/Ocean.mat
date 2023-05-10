@@ -153,7 +153,7 @@ Material:
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
-    - _HorizonFog: 0.431
+    - _HorizonFog: 0.637
     - _Metallic: 0
     - _OcclusionStrength: 1
     - _PLANAR_REFLECTIONS_ENABLED: 0

@@ -11,12 +11,15 @@ Shader "Custom/NewImageEffectShader"
 
         Pass
         {
+            
+            
             CGPROGRAM
             #pragma vertex vert
             #pragma fragment frag
 
             #include "UnityCG.cginc"
-
+            #include "Lighting.cginc"
+            
              struct appdata 
              {
                 float4 vertex : POSITION;
@@ -66,7 +69,7 @@ Shader "Custom/NewImageEffectShader"
             float _DensityMultiplier;
             float _DetailNoiseMultiplier;
             float _ContainerEdgeFadeDst;
-            float4 _LightColor0;
+            //float4 _LightColor0;
             float _LightAbsortionSun;
             float _LightAbsortionCloud;
             float _DarknessThreshold;
@@ -156,7 +159,8 @@ Shader "Custom/NewImageEffectShader"
 
             float lightAtPos(float3 pos)
             {
-                float3 dirToLight = _WorldSpaceLightPos0;
+                float3 dirToLight = _WorldSpaceLightPos0.xyz;
+                //float3 dirToLight = GetMainLight().direction;
                 float dstInsideBox = rayBoxDistance(pos, 1/dirToLight, _BoundsMin, _BoundsMax).y;
 
                 float density = 0;

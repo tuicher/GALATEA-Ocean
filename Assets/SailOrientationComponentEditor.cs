@@ -24,7 +24,6 @@ namespace OceanSystem.Editor
             var v = new Vector3(0.0f, 10.0f, 0.0f);
             var sailsDir = SailsTransform.TransformVector(Vector3.right);
             var windDir = Quaternion.AngleAxis((_wind.WindDirection - 180) % 360, Vector3.down) * Vector3.right;
-            Debug.Log(windDir.normalized+ " " + sailsDir.normalized);
             var dotResult = Vector3.Dot( windDir / sailsDir.magnitude, sailsDir / sailsDir.magnitude);
             
             if (dotResult > 0) 

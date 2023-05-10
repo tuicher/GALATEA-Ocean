@@ -61,7 +61,7 @@ public class GradientSimulation : MonoBehaviour
         for (int i = 0; i < _buffersToRelease.Count; i++)
             _buffersToRelease[i].Release();
 
-        Debug.Log("Gradient simulation time: " + timer.ElapsedMilliseconds + " ms");
+        //Debug.Log("Gradient simulation time: " + timer.ElapsedMilliseconds + " ms");
     }
 
     public void CreateTexture(ref RenderTexture texture, int resolution, string name)

@@ -196,7 +196,7 @@ float4 HorizonBlend(LightingInput li)
 {
 	float3 dir = -float3(li.viewDir.x, 0, li.viewDir.z);
 	float3 horizonColor = SampleOceanSpecCube(dir);
-	
+	//float3 horizonColor = float3(1,1,1);	
 	float distanceScale = 100 + 7 * abs(li.cameraPos.y);
 	float t = exp(-5 / max(_HorizonFog, 0.01) * (abs(li.viewDir.y) + distanceScale / (li.viewDist + distanceScale)));
 	return float4(horizonColor, t);	
