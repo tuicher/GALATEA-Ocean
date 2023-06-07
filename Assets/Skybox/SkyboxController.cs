@@ -15,6 +15,7 @@ public class SkyboxController : MonoBehaviour
     public Transform _milkuWayTransform;
     public Material _skyboxMaterial;
     public SkyParams[] _skyParams;
+    public bool debug;
     private SkyParams _newData;
     private SkyParams _skyData;
     private float _updateGlobalIllumination = 0.0f;
@@ -42,7 +43,7 @@ public class SkyboxController : MonoBehaviour
         int index = (int)(t / 3) % _skyParams.Length;
         float lerpFactor = t % 3 / 3.0f;
 
-        _newData = ScriptableObject.CreateInstance<SkyParams>();
+        _newData = ScriptableObject.CreateInstance < SkyParams > ();
         SkyParams from, to;
         from = _skyParams[index];
         to = _skyParams[(index + 1) % _skyParams.Length];
@@ -56,23 +57,14 @@ public class SkyboxController : MonoBehaviour
         return _newData;
     }
 
-    private readonly Vector3 _ecliptic = new Vector3(1.0f, 0.45f, 0);
+    public Vector3 _ecliptic = new Vector3(1.0f, 0.45f, 0);
 
     private Vector3 EclipticAxis => _ecliptic.normalized;
     public void TransformBodies()
     {
-        _sun.transform.rotation = Quaternion.AngleAxis((_time - 6) * 180 / 12, EclipticAxis);	
-        //_sun.transform.eulerAngles = new Vector3((_time - 6) * 180 / 12, 180, _time * 23);
-        if (_time >= 18)
-        {
-            _moon.transform.rotation = Quaternion.AngleAxis((_time - 18) * 180 / 12, EclipticAxis);
-            //_moon.transform.eulerAngles = new Vector3((_time - 18) * 180 / 12, 180, 0);
-        } else if (_time >= 0) 
-        {
-            _moon.transform.rotation = Quaternion.AngleAxis((_time - 18) * 180 / 12, EclipticAxis);
-            //_moon.transform.eulerAngles = new Vector3(_time * 180 / 12 + 90, 180, 0);
-        }
-            
+        _sun.transform.rotation = Quaternion.AngleAxis((_time - 6) * 360 / 24, EclipticAxis);
+        _moon.transform.rotation = Quaternion.AngleAxis((_time - 18) * 360 / 24, EclipticAxis);
+        // Debug.Log(-_sun.transform.forward);
         _sunTransform.eulerAngles = _sun.transform.eulerAngles;
         _moonTransform.eulerAngles = _moon.transform.eulerAngles;
 
@@ -114,13 +106,37 @@ public class SkyboxController : MonoBehaviour
             yield return 0;
         }
 
-        mainLight2.enabled = false;
+        // mainLight2.enabled = false;
         _changingTime = false;
+    }
+
+    public Vector3 GetPrincipalLightDirection()
+    {
+        if (_time < 6 || _time > 18)
+        {
+            return _moon.transform.forward;
+        }
+        else
+        {
+            return _sun.transform.forward;
+        }
+    }
+
+    public Color GetPrincipalLightColor()
+    {
+        if (_time < 6 || _time > 18)
+        {
+            return _moon.color;
+        }
+        else
+        {
+            return _sun.color;
+        }
     }
 
     void GenerateBlendProbe()
     {
-        gameObject.GetComponent<ReflectionProbe>().RenderProbe();
+        gameObject.GetComponent < ReflectionProbe > ().RenderProbe();
     }
 
     public float _planetRotationSpeed = 1.0f;
@@ -130,12 +146,21 @@ public class SkyboxController : MonoBehaviour
     {
         if (!isPlaying)
         {
-            var deltaTime = Time.deltaTime * _planetRotationSpeed; 
+            var deltaTime = Time.deltaTime * _planetRotationSpeed;
             _time += deltaTime;
-            _time %= 24;
+            /*
+            if (_time > 11.9f && _time <= 12.1f)
+            {
+                _time = 12.1f;
+            } else if (_time > 23.9f && _time <= 24.1f)
+            {
+                _time = 0.1f;
+            } 
+            */
             _counting += deltaTime;
         }
-        
+
+        //debug = _inverseTime;
 
         if(!_changingTime)
         {

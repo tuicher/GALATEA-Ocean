@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: DetailParams_G
   m_EditorClassIdentifier: 
   seed: 1
-  numDivisionsA: 20
+  numDivisionsA: 12
   numDivisionsB: 24
   numDivisionsC: 28
   persistence: 0.5

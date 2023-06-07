@@ -18,7 +18,7 @@ public class AlphaCameraController : MonoBehaviour
     private Vector2 _rotation = Vector2.zero;
     private float _verticalMovement = 0.0f;
     private Vector2 _mouseLook;
-    
+
     void Awake()
     {
         QualitySettings.vSyncCount = 0;
@@ -26,30 +26,29 @@ public class AlphaCameraController : MonoBehaviour
         _startRotation = transform.rotation;
         _startPosition = transform.position;
 
-        _mainCam =  Camera.main;
+        _mainCam = Camera.main;
 
         _inputManager = new PlayerActions();
-        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.lockState = CursorLockMode.None;
 
         _inputManager.FreeView.Sprint.started += ctx => StartSprint();
         _inputManager.FreeView.Sprint.canceled += ctx => StopSprint();
 
         _inputManager.FreeView.Look.performed += ctx => _mouseLook = ctx.ReadValue<Vector2>();
-
         _inputManager.FreeView.Move.performed += ctx => _moveInput = ctx.ReadValue<Vector2>();
 
         _inputManager.FreeView.Vertical.performed += ctx => _verticalMovement = ctx.ReadValue<float>();
     }
 
-    void OnEnable() 
+    void OnEnable()
     {
         _inputManager.Enable();
-        
+
     }
 
     void OnDisable()
     {
-        _inputManager.Disable();   
+        _inputManager.Disable();
     }
 
     void Update()
@@ -83,6 +82,7 @@ public class AlphaCameraController : MonoBehaviour
         _rotation.y -= _mouseLook.y * _sensibilityY * Time.deltaTime;
         _rotation.y = Mathf.Clamp(_rotation.y, -90f, 90f);
 
-        transform.localRotation = _startRotation * Quaternion.Euler(_rotation.y, _rotation.x, 0f);
+        transform.rotation = _startRotation * Quaternion.AngleAxis(_rotation.x, Vector3.up) * Quaternion.AngleAxis(_rotation.y, Vector3.right);
+        //transform.rotation = _startRotation * Quaternion.Euler(_rotation.y, _rotation.x, 0f);
     }
 }

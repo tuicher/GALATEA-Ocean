@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13b75c95f34a00d4e8c04f76b73312e6, type: 3}
+  m_Name: AnimatedWind
+  m_EditorClassIdentifier: 
+  m_AnimatedSprites:
+  - {fileID: -2032691530, guid: 495714c88a29d9f4ebbfc6ac8dc2a08d, type: 3}
+  - {fileID: 1629813579, guid: 495714c88a29d9f4ebbfc6ac8dc2a08d, type: 3}
+  - {fileID: -1499837081, guid: 495714c88a29d9f4ebbfc6ac8dc2a08d, type: 3}
+  - {fileID: 912537810, guid: 495714c88a29d9f4ebbfc6ac8dc2a08d, type: 3}
+  - {fileID: 1074848440, guid: 495714c88a29d9f4ebbfc6ac8dc2a08d, type: 3}
+  - {fileID: 990219361, guid: 495714c88a29d9f4ebbfc6ac8dc2a08d, type: 3}
+  - {fileID: -304629277, guid: 495714c88a29d9f4ebbfc6ac8dc2a08d, type: 3}
+  - {fileID: -1768937184, guid: 495714c88a29d9f4ebbfc6ac8dc2a08d, type: 3}
+  - {fileID: 1262848421, guid: 495714c88a29d9f4ebbfc6ac8dc2a08d, type: 3}
+  - {fileID: 517727391, guid: 495714c88a29d9f4ebbfc6ac8dc2a08d, type: 3}
+  - {fileID: 1491597700, guid: 495714c88a29d9f4ebbfc6ac8dc2a08d, type: 3}
+  - {fileID: 2138012389, guid: 495714c88a29d9f4ebbfc6ac8dc2a08d, type: 3}
+  - {fileID: -531535526, guid: 495714c88a29d9f4ebbfc6ac8dc2a08d, type: 3}
+  m_MinSpeed: 1
+  m_MaxSpeed: 1
+  m_AnimationStartTime: 0
+  m_AnimationStartFrame: 0
+  m_TileColliderType: 0

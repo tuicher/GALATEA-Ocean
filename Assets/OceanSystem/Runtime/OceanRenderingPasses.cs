@@ -27,8 +27,7 @@ namespace OceanSystem
             if (!OceanRendererFeature.IsCorrectCameraType(cameraData.cameraType)) return;
             Camera camera = cameraData.camera;
 
-            DrawingSettings drawingSettings = new DrawingSettings(OceanShaderTagId,
-                new SortingSettings(camera));
+            DrawingSettings drawingSettings = new DrawingSettings(OceanShaderTagId, new SortingSettings(camera));
 
             CommandBuffer cmd = CommandBufferPool.Get();
             SetupGlobalKeywords(cmd);
@@ -45,7 +44,7 @@ namespace OceanSystem
             }
             context.ExecuteCommandBuffer(cmd);
 
-            
+
             CommandBufferPool.Release(cmd);
         }
 
@@ -77,7 +76,7 @@ namespace OceanSystem
         private readonly Material _underwaterEffectMaterial;
         private RenderTargetIdentifier _submergenceTarget;
         private static readonly int _submergenceTargetID = Shader.PropertyToID("SubmergenceTarget");
-        
+
 
         public OceanUnderwaterEffectPass(OceanRendererFeature.OceanRenderingSettings settings)
         {
@@ -125,7 +124,7 @@ namespace OceanSystem
     {
         private OceanRendererFeature.OceanRenderingSettings _settings;
 
-        
+
         private readonly Material _skyMapMaterial;
         private RenderTexture _skyMap;
         private bool _skyMapRendered;
@@ -143,7 +142,7 @@ namespace OceanSystem
             {
                 CreateSkyMapTexture();
                 ConfigureTarget(_skyMap);
-            } 
+            }
         }
 
         public override void Execute(ScriptableRenderContext context, ref RenderingData renderingData)
@@ -177,7 +176,7 @@ namespace OceanSystem
             {
                 if (_skyMap != null)
                     _skyMap.Release();
-                _skyMap = new RenderTexture(_settings.skyMapResolution, _settings.skyMapResolution, 0, 
+                _skyMap = new RenderTexture(_settings.skyMapResolution, _settings.skyMapResolution, 0,
                     RenderTextureFormat.DefaultHDR, RenderTextureReadWrite.Linear)
                 {
                     name = "SkyMap",

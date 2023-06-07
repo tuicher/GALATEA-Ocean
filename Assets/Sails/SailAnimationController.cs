@@ -8,6 +8,8 @@ public class SailAnimationController : MonoBehaviour
     public Animator _animator;
     public SailStates _sailState;
 
+    public bool isAnimating => _sailState == SailStates.RollingUp || _sailState == SailStates.RollingDown || _sailState == SailStates.Inflating || _sailState == SailStates.Deflating;
+
     [Range(0.0f,1.0f)] public float _windDir = 0.5f;
     [Range(0.0f,1.0f)] public float _animPercent;
     [Range(0.000001f,1.0f)] public float _windParam;

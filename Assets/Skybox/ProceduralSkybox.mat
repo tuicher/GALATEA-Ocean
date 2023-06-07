@@ -106,19 +106,19 @@ Material:
     - _Glossiness: 0
     - _GlossyReflections: 0
     - _Metallic: 0
-    - _MilkywayIntensity: 0
+    - _MilkywayIntensity: 0.96131927
     - _MoonIntensity: 3
     - _OcclusionStrength: 1
     - _Parallax: 0.005
     - _QueueOffset: 0
     - _ReceiveShadows: 1
-    - _ScatteringIntensity: 0.5
+    - _ScatteringIntensity: 0
     - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
-    - _StarIntensity: 0
-    - _SunIntensity: 1
+    - _StarIntensity: 1
+    - _SunIntensity: 0
     - _SunSize: 0.02
     - _Surface: 0
     - _WorkflowMode: 1
@@ -130,10 +130,10 @@ Material:
     - _MilkyWayCol1: {r: 0.44705883, g: 0, b: 0.3764706, a: 1}
     - _MilkyWayCol2: {r: 0, g: 1, b: 0, a: 1}
     - _MoonCol: {r: 1, g: 1, b: 1, a: 1}
-    - _MoonDirectionWS: {r: -0.368592, g: 0.81909335, b: -0.43957484, a: 0}
+    - _MoonDirectionWS: {r: 0.4053699, g: -0.90154266, b: -0.15131503, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
     - _SunCol: {r: 0.99215686, g: 0.93333334, b: 0.61960787, a: 1}
-    - _SunDirectionWS: {r: 0.368592, g: -0.81909335, b: 0.4395748, a: 0}
+    - _SunDirectionWS: {r: -0.40536985, g: 0.90154254, b: 0.15131524, a: 0}
   m_BuildTextureStacks: []
 --- !u!114 &4223540305317029681
 MonoBehaviour:

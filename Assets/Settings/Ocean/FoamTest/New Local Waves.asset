@@ -25,14 +25,14 @@ MonoBehaviour:
   _chop: 1.3
   _foam:
     decayRate: 1.77
-    coverage: 0.401
+    coverage: 0.17
     density: 1.03
-    sharpness: 0.463
+    sharpness: 0.554
     persistence: 0.231
-    trail: 0.238
-    trailTextureStrength: 0.5
+    trail: 0.056
+    trailTextureStrength: 0.269
     trailTextureSize: {x: 100, y: 50}
-    underwater: 0
+    underwater: 0.503
     cascadesWeights: {x: 1, y: 0, z: 0, w: 0}
   _equalizer: {fileID: 11400000, guid: 1fd9d91ff7b9c9a4c91fe8d00b1d9ef0, type: 2}
   _windForce: 0

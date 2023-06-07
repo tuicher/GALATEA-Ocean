@@ -86,10 +86,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _mode: 1
   _timeScale: 0.8
-  _depth: 1010.92
+  _depth: 19.9
   _swell: {fileID: 11400000, guid: 9275ed2623fcd8a478d04263e6973ff0, type: 2}
   _localWaves: {fileID: 0}
-  _displayWindForce01: 0.8
+  _displayWindForce01: 1
   _defaultEqualizer: {fileID: 11400000, guid: 1fd9d91ff7b9c9a4c91fe8d00b1d9ef0, type: 2}
   _localWavesArray:
   - {fileID: 8216255704537436480}
@@ -160,14 +160,14 @@ MonoBehaviour:
   _chop: 1.49
   _foam:
     decayRate: 0.02
-    coverage: 0.636
+    coverage: 0.93
     density: 13.99
     sharpness: 0.041
-    persistence: 0.1
-    trail: 0.01
+    persistence: 0.176
+    trail: 0.21
     trailTextureStrength: 0.479
     trailTextureSize: {x: 100, y: 50}
-    underwater: 0.476
+    underwater: 0.184
     cascadesWeights: {x: 3, y: 1, z: 0.3, w: 0.2}
   _equalizer: {fileID: 0}
   _windForce: 5

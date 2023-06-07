@@ -65,7 +65,11 @@ namespace UnityEngine.Rendering.Universal
             settings.blitMaterial.SetFloat("_LightAbsortionCloud", _clouds._lightAbsortionCloud);
             settings.blitMaterial.SetFloat("_DarknessThreshold", _clouds._darknessThreshold);
             settings.blitMaterial.SetFloat("_PrecalcNoiseStrenght", _clouds._precalcNoiseStrenght);
+            settings.blitMaterial.SetVector("_SunDir", GameObject.Find("Skybox").GetComponent<SkyboxController>().GetPrincipalLightDirection());
+            settings.blitMaterial.SetColor("_SunColor", GameObject.Find("Skybox").GetComponent<SkyboxController>().GetPrincipalLightColor());
             
+            var aux = (GameObject.Find("Skybox").GetComponent<SkyboxController>().debug) ? 1 : 0;
+            settings.blitMaterial.SetInt("_DoInverse", aux);
 
             settings.blitMaterial.SetVector("_BoundsMin", _clouds.MinBounds);
             settings.blitMaterial.SetVector("_BoundsMax", _clouds.MaxBounds);

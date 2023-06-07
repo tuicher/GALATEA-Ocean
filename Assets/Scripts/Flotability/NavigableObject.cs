@@ -9,7 +9,7 @@ namespace OceanSystem
     {
         [SerializeField] private FloatingObject _floatingObject;
 
-        [SerializeField, Range(-1, 1)] private float direction;
+        [SerializeField, Range(-1, 1)] public float direction;
         [SerializeField, Range(0, 1)] private float maxTurnSpeed;
 
         [SerializeField, Range(-1, 1)] private float throttle;

@@ -4,7 +4,7 @@
 
 float3 ColorThroughWater(float3 color, float3 volumeColor, float distThroughWater, float depth)
 {
-	distThroughWater = max(0, distThroughWater);
+	distThroughWater = max(0, distThroughWater * 0.5);
 	depth = max(0, depth);
     color *= AbsorptionTint(exp(-(distThroughWater + depth) / Ocean_AbsorptionDepthScale));
 	return lerp(color, volumeColor, 1 - saturate(exp(-Ocean_FogDensity * distThroughWater)));

@@ -39,6 +39,12 @@ void CalculateForCascade(uint3 id)
 	float2 displacementX = lambda * ih * wave.x * oneOverKLength;
 	float2 displacementY = h;
 	float2 displacementZ = lambda * ih * wave.z * oneOverKLength;
+
+	float2 manualDisplacement = float2(0.00001, 0);
+
+	displacementX += manualDisplacement;
+	//displacementY += manualDisplacement;
+	//displacementZ += manualDisplacement;
 	
 	float2 displacementX_dx = -lambda * h * wave.x * wave.x * oneOverKLength;
 	float2 displacementY_dx = ih * wave.x;

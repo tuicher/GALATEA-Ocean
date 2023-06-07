@@ -42,7 +42,8 @@ public class NoiseSimulator : MonoBehaviour
 
     public void Load(string name, RenderTexture target)
     {
-        string sceneName = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
+        //string sceneName = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
+        string sceneName = "Flight Demo";
         name = sceneName + "_" + name;
         Texture3D savedTexture = Resources.Load<Texture3D>(name);
         if (savedTexture != null && savedTexture.width == target.width)

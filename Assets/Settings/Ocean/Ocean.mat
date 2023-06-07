@@ -149,7 +149,7 @@ Material:
     - _FoamDensity: 8.4
     - _FoamNormalsDetail: 0.508
     - _FoamPersistence: 0.866
-    - _FogDensity: 0.1
+    - _FogDensity: 0.07
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
